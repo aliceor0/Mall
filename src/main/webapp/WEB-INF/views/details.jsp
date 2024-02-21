@@ -200,11 +200,11 @@ p.container{
         </p>
         <br><br>
         <h4>상품후기</h4>
-       <tr>
-		    	<td><textarea id="cmtBox" class="cmtBox" placeholder="작성하려면 로그인이 필요합니다" disable = true></textarea></td></tr>
-		  	 	<c:if test="${sessionScope.userid != null}">
-			  	  <tr><td class="btnBox"><input type="button" id="btnAdd" value="등록"></td></tr>
-				</c:if>
+        <tr>
+	    	<td><textarea id="cmtBox" class="cmtBox" placeholder="작성하려면 로그인이 필요합니다" disable = true></textarea></td></tr>
+	  	 	<c:if test="${sessionScope.userid != null}">
+		  	  <tr><td class="btnBox"><input type="button" id="btnAdd" value="등록"></td></tr>
+			</c:if>
 		</table>
 		<hr>
 		
