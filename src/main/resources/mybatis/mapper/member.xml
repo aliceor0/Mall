@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.himedia.shopping.MemberDAO">
+	<insert id="doSignup">
+			INSERT INTO pmember set userid=#{param1},passwd=#{param2},name=#{param3},email=#{param4},mobile=#{param5}
+	</insert>
+			
+	<select id="doLogin" resultType="_int">
+		SELECT count(*)cnt from pmember where userid=#{param1} and passwd=#{param2}
+	</select>
+			
+	<select id="getMember_id" resultType="String">
+		select id from pmember where userid=#{param1}
+	</select>		
+			
+	<select id="checkId" resultType="_int">	
+		select count(*) cnt from pmember where userid=#{param1}
+	</select>
+			
+	<select id="manager" resultType="_int">
+		select count(*) cnt from pmember where userid=#{param1} and passwd=#{param2} and admin='1'
+	</select>
+	
+</mapper>

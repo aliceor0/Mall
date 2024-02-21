@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.himedia.shopping.BookDAO">
+	<select id="list" resultType="com.himedia.shopping.BookDTO">
+		select id,image,name,price from pbook 
+	</select>
+	<insert id="addPro">
+	INSERT INTO pbook set name=#{param1},image=#{param2},price=#{param3},author=#{param4},publishDate=#{param5},publishCompany=#{param6},booktype=#{param7}
+	</insert>
+	<select id="cList" resultType="com.himedia.shopping.BookDTO">
+		select id,image,name,price from pbook where choice=1
+	</select>
+	<insert id="addEvent">
+		insert into event set title=#{param1},inf=#{param2},img=#{param3}
+	</insert>
+	<select id="event" resultType="com.himedia.shopping.EventDTO">
+		select id,img,title,inf from event
+	</select>
+	<select id="bookInf" resultType="com.himedia.shopping.DetailDTO">
+		select id,name,image,price from pbook where id=#{param1}
+	</select>
+	<select id="newList" resultType="com.himedia.shopping.BookDTO">
+		select id,name,image,price from pbook order by publishDate desc limit 4
+	</select>
+	<select id="viewbook" resultType="com.himedia.shopping.BookDTO">
+		select id,image,name,price,choice from pbook where id=#{param1};
+	</select>
+	<delete id="removebook">
+		delete from pbook where id=#{param1}
+	</delete>
+	<update id="modifybook">
+		update pbook set image=#{param2},name=#{param3},price=#{param4} where id=#{param1}
+	</update>
+	<insert id="addbasketList">
+        insert into basket set basketId=#{param1},basketImage=#{param2},basketName=#{param3},basketPrice=#{param4},basketCnt=#{param5}
+   </insert>
+   
+   <select id="basketList" resultType="com.himedia.shopping.BookDTO">
+   		select a.id,b.id order_id,image,name,price from pbook a,cart b where b.book_id=a.id and b.member_id=#{param1}
+   </select>
+   
+   <delete id="removecart">
+   		delete from cart where id=#{param1}
+   </delete>
+   <delete id="removeMemberCart">
+   		delete from cart where member_id=#{param1}
+   </delete>
+   <select id="pageList" resultType="com.himedia.shopping.BookDTO">
+		select id,image,name,price from pbook a where booktype like concat('%',#{param1},'%')
+   </select>
+   
+   <insert id="gocart">
+   		insert into cart set book_id=#{param1},member_id=#{param2}
+   </insert>
+   
+   <select id="booktype">
+   		select type from booktype where id=#{param1}
+   </select>
+   
+   <!-- q&a -->
+    <select id="listqna" resultType="com.himedia.shopping.dboardDTO">
+		select id,title,content,writer,passwd,created from dboard order by id desc
+	</select>
+	<select id="viewqna" resultType="com.himedia.shopping.dboardDTO">
+		select id,title,content,writer,passwd,created from dboard where id=#{param1}
+	</select>
+	<insert id="savepost">
+		INSERT INTO dboard set title=#{param1},content=#{param2},writer=#{param3},passwd=#{param4}
+	</insert>
+	<delete id="delpost">
+		delete from dboard where id=#{param1}
+	</delete>
+	<update id="modifypost">
+		update dboard set title=#{param2},content=#{param3},writer=#{param4},passwd=#{param5},created=#{param6} where id=#{param1}
+	</update>
+	
+	<select id="reviews" resultType="com.himedia.shopping.reviewsDTO">
+				select id,user_id,book_id,inf,title
+				from review
+				order by user_id </select>
+
+<!-- QNA -->
+	<insert id="qnaAnswer">
+		insert into review set board_id=#{param1},username=#{param2},title=#{param3},inf=#{param4},updated=now()
+	</insert>
+	
+	<update id="qnaUpdate">
+		update review set board_id=#{param1},username=#{param2},title=#{param3},inf=#{param4},updated=now()
+	</update>
+	
+	<delete id="qnaRemove">
+		delete from review where id=#{param1}
+	</delete>
+
+	<select id="listAnswer" resultType="com.himedia.shopping.reviewsDTO">
+		select a.id,a.username,b.title,a.inf, a.updated
+		from review a,dboard b
+		where a.board_id=b.id
+		and b.id=#{param1};
+	</select>
+	
+	<delete id="removeallreview">
+	  delete from review where board_id=#{param1}
+	</delete>
+	
+	
+	
+	
+	
+	
+   
+   <!-- 결제창 -->
+  	<insert id="order_basic">
+  		insert into sales_basic set book_id=#{param1},member_id=#{param2},address=#{param3},cnt=#{param4},payway=#{param5},order_dt=sysdate()
+  	</insert>
+  	
+  	<insert id="order_card">
+  		insert into sales_card set book_id=#{param1},member_id=#{param2},address=#{param3},cnt=#{param4},payway=#{param5},order_dt=sysdate(),card=#{param6},card_number=#{param7}
+  	</insert>
+  	
+  	<insert id="order_toss">
+  		insert into sales_toss set book_id=#{param1},member_id=#{param2},address=#{param3},cnt=#{param4},payway=#{param5},order_dt=sysdate()
+  	</insert>
+  	
+  	<delete id="cleanCart">
+  		delete from cart
+  	</delete>
+  	
+  	<insert id="addTotal">
+  		insert into sales_total set member_id=#{param1},total=#{param2},payway=#{param3},order_dt=sysdate()
+  	</insert>
+  	
+  	<!-- 리뷰 -->
+  	<select id="listreview" resultType="com.himedia.shopping.PcommentDTO">
+		select id,bookid,writer,content,created from pcomment where bookid=#{param1} order by id desc
+	</select>
+	<insert id="addcomment">
+		insert into pcomment set bookid=#{param1},writer=#{param2},content=#{param3}
+	</insert>
+	<delete id="delcomment">
+		delete from pcomment where id=#{param1}
+	</delete>
+	<delete id="removeAllComment">
+		delete from pcomment where bookid=#{param1}
+	</delete>
+	 
+	 <!-- 검색엔진 --> 	
+	 <select id="searchList" resultType="com.himedia.shopping.BookDTO">   
+	       select id,name,author,inf,image,price
+	       from pbook
+	       where name like concat('%',#{param1},'%');
+   	</select>   
+</mapper>
