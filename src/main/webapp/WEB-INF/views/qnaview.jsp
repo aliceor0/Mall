@@ -8,30 +8,54 @@
 <title>Insert title here</title>
 </head>
 <style>
-  
-       table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+  div.detail {
+    width: 800px;
+    overflow: auto;
+    margin: auto;
+}
 
-        table, th, td {
-            border: 1px solid #ddd;
-        }
+table {
+    width: 800px;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
 
-         td {
-            padding: 10px;
-            text-align: left;
-        }
+th, td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+h2{
+	text-align: center;
+}
+input[type="text"], input[type="password"], textarea {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.8); /* Adjust the last value for transparency */
+}
+textarea{
+	height:300px;
+}
+button {
+    padding: 8px 12px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
 
-        th {
-        	
-            background-color: #f2f2f2;
-        }
-		a{
-			text-decoration:none;
-		}
+#btnAdd:hover, #btnReset:hover {
+    background-color: #2980b9;
+}
 </style>
 <body>
+
 
 
 <c:if test="${sessionScope.admin != null}">
@@ -49,7 +73,7 @@
 <c:if test="${sessionScope.userid == null}">
 	<a href='/login'>로그인</a>
 </c:if>
-
+<div class=detail>
 <table>
 <caption style="text-align:right"><a href="/qnaboard"><button >목록</button></a></caption>
 <tr><td></td><td><input type="hidden" id=vid value="${board.id}" readonly></td></tr>
@@ -68,22 +92,26 @@
 	</tr>
 </c:if>
 </table>
+
 <hr>
 <div>
 	
 		<table >
 			<tr>
+				<th >답글</th>
 				<th>작성자</th>
 				<th>제목</th>
 				<th>내용</th>
 				<th>시간</th>
+				<th>수정/삭제</th>
+				
 			</tr>
 		</table>
 	
 	<div>
 		<table id=tblAnswer>
 		
-			<tr><td>답글란</td></tr>
+			
 			
 			
 		</table>
@@ -101,7 +129,7 @@
 	</div>
 </div>
 
-
+</div>
 
 </body>
 
@@ -188,23 +216,7 @@ $(document)
 	})
 	
 })
- 
-// .on("click",'#btnClear',function(){
-// 	console.log($(this).parent().parent().find('td:eq(0) input').val())
-// 	$.ajax({
-// 		type:"get",
-// 		url:"/qnaRemove",
-// 		data:{board_id:$(this).parent().parent().find('td:eq(0) input').val()},
-// 		dataType:"text",
-// 		success:function(data){
-// 				location.reload();
-// 				alert("삭제성공")
-			
-// 		}
-// 	})
-// 	$(this).parent().parent().remove();
-// 	return false;
-// })
+
 
 function viewList(){
 	$.ajax({
@@ -218,10 +230,10 @@ function viewList(){
 				for(let i=0;i<data.length;i++){
 					let ob=data[i]
 					let str="";
-					str+="<tr><td><input type=hidden id=reviewid value="+ob['id']+"></td><td>"+ob['username']+"</td><td>"+ob['title']+"</td><td>"
-						+ob['inf']+"</td><td>"+ob['updated']+"</td>"
+					str+="<tr><td>답글란<input type=hidden id=reviewid value="+ob['id']+"></td><td>"+ob['username']+"</td><td>"+ob['title']+"</td><td>"
+						+ob['inf']+"</td><td class='delete'>"+ob['updated']+'</td>'
 						+'<c:if test="${sessionScope.admin != null}">'
-						+'<td><input type=button id=btnClear value=삭제></td></tr></c:if>'
+						+'<td><input type=button  id=btnClear value=삭제></td></tr></c:if>'
 					$('#tblAnswer').append(str)
 					console.log(ob['username'])
 				}
