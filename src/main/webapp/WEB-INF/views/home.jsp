@@ -61,7 +61,7 @@ if(session.getAttribute("userid")!=null){
       </tr>
       <tr>   
          <td>
-            <a href="/qnaboard">마이페이지로 이동하기</a>
+            <a href="/gomypage">마이페이지로 이동하기</a>
          </td>
       </tr>
       <tr>

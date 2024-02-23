@@ -87,7 +87,7 @@ button {
 		<td colspan=2 style="text-align:center">
 			<br>
 			<button id="btnMod">수정</button>
-			<a href="/delpost?id=${board.id}"><button id="btnDel">삭제</button></a>
+			<button id="btnDel">삭제</button>
 		</td>
 	</tr>
 </c:if>
@@ -140,6 +140,22 @@ button {
 $(document)
 .ready(function(){
 	viewList();
+	
+})
+.on('click','#btnDel',function(){
+	$.ajax({
+		type:'post',
+		url:'/deletePost',
+		data:{id:$('#vid').val()},
+		dataType:'text',
+		success:function(data){
+			if(data=='1'){
+				alert('삭제 완료')
+				document.location="/qnaboard"
+			}	
+		}
+	})
+	
 	
 })
 .on('click','#btnMod',function(){

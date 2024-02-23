@@ -23,13 +23,13 @@
 		select id,name,image,price from pbook order by publishDate desc limit 4
 	</select>
 	<select id="viewbook" resultType="com.himedia.shopping.BookDTO">
-		select id,image,name,price,choice from pbook where id=#{param1};
+		select id,image,name,price,author,publishDate,publishCompany,booktype from pbook where id=#{param1};
 	</select>
 	<delete id="removebook">
 		delete from pbook where id=#{param1}
 	</delete>
 	<update id="modifybook">
-		update pbook set image=#{param2},name=#{param3},price=#{param4} where id=#{param1}
+		update pbook set image=#{param2},name=#{param3},price=#{param4},publishDate=#{param5},publishCompany=#{param6},booktype=#{param7},author=#{param8} where id=#{param1}
 	</update>
 	<insert id="addbasketList">
         insert into basket set basketId=#{param1},basketImage=#{param2},basketName=#{param3},basketPrice=#{param4},basketCnt=#{param5}
@@ -102,7 +102,16 @@
 	<delete id="removeallreview">
 	  delete from review where board_id=#{param1}
 	</delete>
-	
+<!-- 결제내역 -->
+	<select id="salesList_basic" resultType="com.himedia.shopping.SalesDTO">
+		select name,cnt,price,order_dt,address from pbook a,sales_basic b where b.member_id=#{param1} and b.book_id=a.id
+	</select>
+	<select id="salesList_card" resultType="com.himedia.shopping.SalesDTO">
+		select name,cnt,price,order_dt,address from pbook a,sales_card b where b.member_id=#{param1} and b.book_id=a.id
+	</select>
+	<select id="salesList_toss" resultType="com.himedia.shopping.SalesDTO">
+		select name,cnt,price,order_dt,address from pbook a,sales_toss b where b.member_id=#{param1} and b.book_id=a.id
+	</select>
 	
 	
 	
@@ -111,19 +120,19 @@
    
    <!-- 결제창 -->
   	<insert id="order_basic">
-  		insert into sales_basic set book_id=#{param1},member_id=#{param2},address=#{param3},cnt=#{param4},payway=#{param5},order_dt=sysdate()
+  		insert into sales_basic set book_id=#{param1},member_id=#{param2},address=#{param3},cnt=#{param4},payway=#{param5},order_dt=now()
   	</insert>
   	
   	<insert id="order_card">
-  		insert into sales_card set book_id=#{param1},member_id=#{param2},address=#{param3},cnt=#{param4},payway=#{param5},order_dt=sysdate(),card=#{param6},card_number=#{param7}
+  		insert into sales_card set book_id=#{param1},member_id=#{param2},address=#{param3},cnt=#{param4},payway=#{param5},order_dt=now(),card=#{param6},card_number=#{param7}
   	</insert>
   	
   	<insert id="order_toss">
-  		insert into sales_toss set book_id=#{param1},member_id=#{param2},address=#{param3},cnt=#{param4},payway=#{param5},order_dt=sysdate()
+  		insert into sales_toss set book_id=#{param1},member_id=#{param2},address=#{param3},cnt=#{param4},payway=#{param5},order_dt=now()
   	</insert>
   	
   	<delete id="cleanCart">
-  		delete from cart
+  		delete from cart where member_id=#{param1}
   	</delete>
   	
   	<insert id="addTotal">

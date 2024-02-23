@@ -57,6 +57,7 @@
 
 
 <body>
+<header><a href="/">홈으로</a></header>
 <input type=hidden id=userid value="${sessionScope.userid }">
 <form method="post" action="/order" id=form>
 	<div id="basketList02">
@@ -118,11 +119,11 @@ $(document)
 	$.ajax({
 		type:'post',
 		url:'/cleanCart',
-		data:{},
+		data:{member_id:$('#userid').val()},
 		dataType:'text',
 		success:function(data){
-			if(data=='1'){
-				console.log('비우기완료')
+			if(data!='0'){
+				alert('비우기완료')
 				location.reload();
 				return false
 			}

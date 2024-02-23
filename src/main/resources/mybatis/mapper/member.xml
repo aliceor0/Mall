@@ -11,6 +11,9 @@
 			
 	<select id="getMember_id" resultType="String">
 		select id from pmember where userid=#{param1}
+	</select>
+	<select id="eqmobile" resultType="_int">
+		select count(*) cnt from pmember where mobile=#{param1} and id=#{param2}
 	</select>		
 			
 	<select id="checkId" resultType="_int">	
@@ -20,5 +23,26 @@
 	<select id="manager" resultType="_int">
 		select count(*) cnt from pmember where userid=#{param1} and passwd=#{param2} and admin='1'
 	</select>
+	<!--  			결제내역 불러오기 페이지  -->
+	<select id="findTotal_basic" resultType="com.himedia.shopping.SalesDTO">
+		select name book_name,cnt,price,order_dt,address from pbook a, sales_basic b where b.member_id=#{param1} and b.book_id=a.id;
+	</select>
 	
+	<select id="findTotal_card" resultType="com.himedia.shopping.SalesDTO">
+		select name book_name,cnt,price,order_dt,address from pbook a, sales_card b where b.member_id=#{param1} and b.book_id=a.id;
+	</select>
+	
+	<select id="findTotal_toss" resultType="com.himedia.shopping.SalesDTO">
+		select name book_name,cnt,price,order_dt,address from pbook a, sales_toss b where b.member_id=#{param1} and b.book_id=a.id;
+	</select>
+	
+	<!--  			결제내역 삭제 하기 만들기  -->
+	
+	<delete id="delList"> delete from sales_total where member_id=#{param1} and order_dt=#{param2}; </delete>
+	
+	<delete id="delList_basic"> delete from sales_basic where member_id=#{param1} and order_dt=#{param2}; </delete>
+	
+	<delete id="delList_card"> delete from sales_card where member_id=#{param1} and order_dt=#{param2}; </delete>
+	
+	<delete id="delList_toss"> delete from sales_toss where member_id=#{param1} and order_dt=#{param2}; </delete>
 </mapper>

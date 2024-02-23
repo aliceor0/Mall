@@ -21,7 +21,6 @@ body {
 
 h2 {
     color: #333;
-    text-align: center;
 }
 
 a {
@@ -121,7 +120,7 @@ td.qdate{
 <header><a href="/">홈으로</a></header>
 
 <div class=detail>
-<h2>QnA 게시판</h2><hr>
+<h2>QnA 게시판</h2>
 
 <c:if test="${sessionScope.userid != null}">
 	<caption style="text-align:right"><a href="/qnawrite"><button>작성</button></a></caption>

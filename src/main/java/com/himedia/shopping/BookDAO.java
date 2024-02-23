@@ -17,7 +17,7 @@ public interface BookDAO {
 	String booktype(int id);
 	
 	int removebook(int id);
-	int modifybook(int id,String img,String title,int price);
+	int modifybook(int id,String img,String title,int price,String publishd,String publishc,String booktype,String author);
 	BookDTO viewbook(int id);
 	int gocart(int id,int member_id);
 	ArrayList<BookDTO> basketList(int member_id);
@@ -43,9 +43,8 @@ public interface BookDAO {
 	int order_basic(int book_id,int member_id,String address,int cnt,String payway);
 	int order_card(int book_id,int member_id,String address,int cnt,String payway,String card,String card_number);
 	int order_toss(int book_id,int member_id,String address,int cnt,String payway);
-	int cleanCart();
+	int cleanCart(int member_id);
 	int addTotal(int total,int member_id,String payway);
-	
 	// 댓글
 		ArrayList<PcommentDTO> listreview(int bookid);
 		int addcomment(int bookid, String writer, String content);
@@ -53,7 +52,9 @@ public interface BookDAO {
 		int removeAllComment(int id);
 	//검색기능 구현하기
 	   ArrayList<BookDTO> searchList(String bookTitle);
-	
-	
+	//결제내역
+	   ArrayList<SalesDTO> salesList_basic(int member_id);
+	   ArrayList<SalesDTO> salesList_card(int member_id);
+	   ArrayList<SalesDTO> salesList_toss(int member_id);
 	
 }

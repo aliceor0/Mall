@@ -27,6 +27,14 @@ public class HomeController {
 	public String home() {
 		return "home";
 	}
+	@GetMapping("/gomypage")
+	public String mypage() {
+		return "mypage";
+	}
+	@GetMapping("/buyList")
+	public String buyList() {
+		return "buyList";
+	}
 	
 	@PostMapping("/order")
 	public String order(HttpServletRequest req,Model model) {
@@ -228,10 +236,14 @@ public class HomeController {
 		String id = req.getParameter("id");
 		String img=req.getParameter("img");
 		String title=req.getParameter("title");
+		String author=req.getParameter("author");
+		String publishDate=req.getParameter("publishDate");
+		String publishc=req.getParameter("publishCompany");
+		String booktype=req.getParameter("booktype");
 //		System.out.println("id:"+id+" \n img:"+img+" \n title:"+title+" \n price:"+req.getParameter("price"));
 			
 		int price=Integer.parseInt(req.getParameter("price"));
-		int n = bdao.modifybook(Integer.parseInt(id), img, title, price);
+		int n = bdao.modifybook(Integer.parseInt(id), img, title, price,publishDate,publishc,booktype,author);
 			
 		return ""+n;
 	}
@@ -301,7 +313,7 @@ public class HomeController {
 		return "/signup";
 	}
 	@GetMapping("/mypage")
-	public String mypage() {
+	public String gomypage() {
 		return "/mypage";
 	}
 	//회원가입하기
@@ -472,7 +484,7 @@ public class HomeController {
 		
 		System.out.println("n은 삭제" +n);
 		
-		return "redirect:/qnaboard";
+		return ""+n;
 	}
 	//댓글달기 C
 	@PostMapping("/qnaAnswer")
@@ -570,10 +582,15 @@ public class HomeController {
 		String address=req.getParameter("address");
 		String member_id=req.getParameter("member_id");
 		String payway=req.getParameter("payway");
+		String mobile=req.getParameter("mobile");
 		String[] book_id=book_idA.split(",");
 		String[] cnt=cntA.split(",");
 		System.out.println(member_id);
 		String a=mdao.getMember_id(member_id);
+		int m = mdao.eqmobile(Integer.parseInt(mobile), Integer.parseInt(a));
+		if(m==0) {
+			return ""+m;
+		}
 		System.out.println(a);
 		for(int i=0;i<book_id.length;i++) {
 			System.out.println(book_id[i]);
@@ -611,10 +628,15 @@ public class HomeController {
 		String address=req.getParameter("address");
 		String member_id=req.getParameter("member_id");
 		String payway=req.getParameter("payway");
+		String mobile=req.getParameter("mobile");
 		String[] book_id=book_idA.split(",");
 		String[] cnt=cntA.split(",");
 //		System.out.println(member_id);
 		String a=mdao.getMember_id(member_id);
+		int m = mdao.eqmobile(Integer.parseInt(mobile), Integer.parseInt(a));
+		if(m==0) {
+			return ""+m;
+		}
 //		System.out.println(a);
 		for(int i=0;i<book_id.length;i++) {
 			int n=bdao.order_toss(Integer.parseInt(book_id[i]), Integer.parseInt(a), address, Integer.parseInt(cnt[i]), payway);
@@ -637,8 +659,12 @@ public class HomeController {
 	
 	@PostMapping("/cleanCart")
 	@ResponseBody
-	public String cleanCart() {
-		int n =  bdao.cleanCart();
+	public String cleanCart(HttpServletRequest req) {
+		String member_id=req.getParameter("member_id");
+		String a=mdao.getMember_id(member_id);
+		
+		int n =  bdao.cleanCart(Integer.parseInt(a));
+		System.out.println("ㅇㅇ"+n);
 		return ""+n;
 	}
 	
@@ -708,7 +734,83 @@ public class HomeController {
 		return ja.toJSONString();
 	}
 	
+	//결제내역 리스트
+	@GetMapping("/gobuyList")
+	@ResponseBody
+	public String gobuyList(HttpServletRequest req) {
+		String member_id = req.getParameter("member_id");
+		String mem = mdao.getMember_id(member_id);
+		System.out.println("mem 은 아이디 뽑아오기" + mem);
+		System.out.println("member_id 결제내역" +member_id );
+		JSONArray ja = new JSONArray();
+		
+		ArrayList<SalesDTO> alSales = mdao.findTotal_basic(Integer.parseInt(mem));
+		System.out.println("alSales 가져오나요 토탈을");
+		
+		
+		for(int i=0;i<alSales.size();i++) {
+			JSONObject jo = new JSONObject();
+			jo.put("book_name",alSales.get(i).getBook_name());
+			System.out.println("jo는 책제목" + jo);
+			jo.put("cnt",alSales.get(i).getCnt());
+			jo.put("price",alSales.get(i).getPrice());
+			jo.put("order_dt",alSales.get(i).getOrder_dt());
+			jo.put("address",alSales.get(i).getAddress());
+			jo.put("total",(alSales.get(i).getCnt()*alSales.get(i).getPrice()));
+			ja.add(jo);
+		}
+		
+		alSales = mdao.findTotal_card(Integer.parseInt(mem));
+		for(int i=0;i<alSales.size();i++) {
+			JSONObject jo = new JSONObject();
+			jo.put("book_name",alSales.get(i).getBook_name());
+			jo.put("cnt",alSales.get(i).getCnt());
+			jo.put("price",alSales.get(i).getPrice());
+			jo.put("order_dt",alSales.get(i).getOrder_dt());
+			jo.put("address",alSales.get(i).getAddress());
+			jo.put("total",(alSales.get(i).getCnt()*alSales.get(i).getPrice()));
+			ja.add(jo);
+		}
+		
+		
+		alSales = mdao.findTotal_toss(Integer.parseInt(mem));
 
+		for(int i=0;i<alSales.size();i++) {
+			JSONObject jo = new JSONObject();
+			jo.put("book_name",alSales.get(i).getBook_name());
+			jo.put("cnt",alSales.get(i).getCnt());
+			jo.put("price",alSales.get(i).getPrice());
+			jo.put("order_dt",alSales.get(i).getOrder_dt());
+			jo.put("address",alSales.get(i).getAddress());
+			jo.put("total",(alSales.get(i).getCnt()*alSales.get(i).getPrice()));
+			ja.add(jo);
+		
+		}
+		return ja.toJSONString();
+	}
+	
+	
+	@GetMapping("/delList")
+	@ResponseBody
+	public String delList(HttpServletRequest req) {
+		String member_id = req.getParameter("member_id");
+		String mem = mdao.getMember_id(member_id);
+		System.out.println("me은 아이디" + mem);
+		String order_dt = req.getParameter("order_dt");
+		System.out.println("order_dt 는 시간"+order_dt);
+		int n=0;
+		
+		n = mdao.delList(Integer.parseInt(mem),order_dt);
+			System.out.println("n은 삭제입니다전체삭제"+n);
+		
+		 n = mdao.delList_basic(Integer.parseInt(mem),order_dt);
+		 System.out.println("n은 삭제입니다현찰"+n);
+		 n = mdao.delList_card(Integer.parseInt(mem),order_dt);
+		 System.out.println("n은 삭제입니다카드"+n);
+		 n = mdao.delList_toss(Integer.parseInt(mem),order_dt);
+		System.out.println("n은 삭제입니다토스"+n);
+		return ""+n;
+	}
 	
 	
 	

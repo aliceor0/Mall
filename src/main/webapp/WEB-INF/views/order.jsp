@@ -28,7 +28,7 @@ th,td{
 		<td></td>
 		<td>
 		<table>
-			<tr><td class=left>휴대폰</td><td><input type=number id=moobile></td></tr>
+			<tr><td class=left>휴대폰</td><td><input type=number id=mobile></td></tr>
 		</table>
 		</td>
 	</tr>
@@ -58,7 +58,6 @@ th,td{
 		<td></td>
 		<td>
 		<table>
-			<tr><td class=left>이름</td><td><input id=tossName></td></tr>
 			<tr><td class=left>전화번호</td><td><input type=number id=tossMobile></td></tr>
 		</table>
 		</td>
@@ -91,7 +90,9 @@ $(document)
 		$('#t_style').show()
 	}
 })
-
+.on('click','#btnback',function(){
+	document.location.href="/basketList"
+})
 .on('click','#btnBuy',function(){
 	var n = document.getElementsByName("book_id");
     var book= [];
@@ -104,10 +105,14 @@ $(document)
 		$.ajax({
 			type:'post',
 			url:'/basicBuy',
-			data:{cnt:$('#cnt').val(),book_id:$('#book').val(),address:$('#address').val(),payway:$('#basic').val(),member_id:$('#member_id').val()},
+			data:{cnt:$('#cnt').val(),book_id:$('#book').val(),address:$('#address').val(),payway:$('#basic').val(),member_id:$('#member_id').val(),mobile:$('#mobile').val()},
 			dataType:'text',
 			success:function(data){
 				console.log("4")
+				if(data=='0'){
+					alert('전화번호가 다름니다')
+					return false
+				}
 				addTotal()
 				cleanCart()
 				document.location.href="/"
@@ -130,10 +135,14 @@ $(document)
 		$.ajax({
 			type:'post',
 			url:'/tossBuy',
-			data:{cnt:$('#cnt').val(),book_id:$('#book').val(),address:$('#address').val(),payway:$('#toss').val(),member_id:$('#member_id').val()},
+			data:{cnt:$('#cnt').val(),book_id:$('#book').val(),address:$('#address').val(),payway:$('#toss').val(),member_id:$('#member_id').val(),mobile:$('#tossMobile').val()},
 			dataType:'text',
 			success:function(data){
 				console.log("8")
+				if(data=='0'){
+					alert('이름 또는 전화번호가 올바르지 않습니다')
+					return false
+				}
 				addTotal()
 				cleanCart()
 				document.location.href="/"
@@ -163,7 +172,7 @@ function cleanCart(){
 	$.ajax({
 		type:'post',
 		url:'/cleanCart',
-		data:{},
+		data:{member_id:$('#member_id').val()},
 		dataType:'text',
 		success:function(data){
 			if(data=='1'){

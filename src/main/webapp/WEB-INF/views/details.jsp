@@ -96,14 +96,12 @@ table.cmtcnt{
 p.container{
 	width:600px;
 }
+
 </style>
 <body>
 <header><a href="/">홈으로</a></header>
-
 <input type=hidden id=book_id value="${book_id }">
 <input type=hidden id=writer value="${userid }">
-
-
 <div class="detail">
     <div class="title">
         <h1 id=hTitle></h1>
@@ -200,11 +198,11 @@ p.container{
         </p>
         <br><br>
         <h4>상품후기</h4>
-        <tr>
-	    	<td><textarea id="cmtBox" class="cmtBox" placeholder="작성하려면 로그인이 필요합니다" disable = true></textarea></td></tr>
-	  	 	<c:if test="${sessionScope.userid != null}">
-		  	  <tr><td class="btnBox"><input type="button" id="btnAdd" value="등록"></td></tr>
-			</c:if>
+       <tr>
+		    	<td><textarea id="cmtBox" class="cmtBox" placeholder="작성하려면 로그인이 필요합니다" disable = true></textarea></td></tr>
+		  	 	<c:if test="${sessionScope.userid != null}">
+			  	  <tr><td class="btnBox"><input type="button" id="btnAdd" value="등록"></td></tr>
+				</c:if>
 		</table>
 		<hr>
 		
@@ -275,7 +273,7 @@ $(document)
 		}
 	})
 })
-
+// 댓글 작성 권한
 .on('click','#cmtBox',function(){
     let userid = $('#writer').val();
     console.log("userid"+userid)
@@ -289,18 +287,7 @@ $(document)
 })
 
 
-// 댓글 작성 권한
-.on('click','#cmtBox',function(){
-    let userid = $('#chklogin').val();
-    console.log("userid"+userid)
-    if(userid != ""){
-        $('#cmtBox').disable = false;    
-        // console.log(userid)
-    } else {
-        alert('로그인페이지로 이동합니다');
-        location.href="/login";
-    }
-})
+
 
 // 댓글 등록
 .on('click','#btnAdd',function(){

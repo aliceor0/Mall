@@ -9,7 +9,6 @@
 </head>
 <body>
 <header><a href="/">홈으로</a></header>
-
 <h1>상품등록</h1>
 <table>
 <tr><td>그림</td><td><input type="text" id=img></td></tr>
@@ -23,6 +22,9 @@
     <input type=checkbox name="interestBook" value="건강/취미">건강/취미
     <input type=checkbox name="interestBook" value="과학">과학<br>
     <input type=checkbox name="interestBook" value="로맨스">로맨스
+    <input type=checkbox name="interestBook" value="소설/시/희곡">소설/시/희곡
+    <input type=checkbox name="interestBook" value="심리/추리/스릴러">심리/추리/스릴러<br>
+    <input type=checkbox name="interestBook" value="종교">종교
     <input type=checkbox name="interestBook" value="만화">만화
     <input type=checkbox name="interestBook" value="판타지/무협">판타지/무협
     <input type=checkbox name="interestBook" value="라이트노벨">라이트노벨
