@@ -7,8 +7,110 @@
 <meta charset="UTF-8">
 <title>테스트</title>
 </head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* 헤더 스타일 */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+}
+
+header a {
+    color: #fff;
+    text-decoration: none;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+/* 등록 폼 스타일 */
+h1 {
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table td, table th {
+    padding: 10px;
+}
+
+table th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+input[type="text"], input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+input[type="checkbox"] {
+    width: auto;
+    margin-right: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* 등록 상품 내역 스타일 */
+#tblList {
+    margin-top: 20px;
+}
+
+#tblList th, #tblList td {
+    text-align: center;
+    padding: 10px;
+}
+
+#tblList th:first-child, #tblList td:first-child {
+    width: 5%;
+}
+
+#tblList th:nth-child(2), #tblList td:nth-child(2) {
+    width: 20%;
+}
+
+#tblList th:nth-child(3), #tblList td:nth-child(3) {
+    width: 45%;
+}
+
+#tblList th:nth-child(4), #tblList td:nth-child(4) {
+    width: 15%;
+}
+input[type="hidden"] {
+    display: none;
+}
+div.detail {
+    width: 1000px;
+    overflow: auto;
+    margin: auto;
+}
+</style>
 <body>
 <header><a href="/">홈으로</a></header>
+<div class=detail>
 <h1>상품등록</h1>
 <table>
 <tr><td>그림</td><td><input type="text" id=img></td></tr>
@@ -51,6 +153,7 @@
 	</tr>
 </c:forEach>
 </table>
+</div>
 </body>
 
 <script src='https://code.jquery.com/jquery-latest.js'></script>

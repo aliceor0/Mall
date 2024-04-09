@@ -96,6 +96,21 @@ table.cmtcnt{
 p.container{
 	width:600px;
 }
+/* 헤더 스타일 */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+}
+
+header a {
+    color: #fff;
+    text-decoration: none;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
 
 </style>
 <body>

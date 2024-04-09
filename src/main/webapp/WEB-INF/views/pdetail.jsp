@@ -6,10 +6,90 @@
 <meta charset="UTF-8">
 <title>pdetails</title>
 </head>
-<body>
+<style>
+/* 헤더 스타일 */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+}
 
+header a {
+    color: #fff;
+    text-decoration: none;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table td, table th {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+/* 이미지 스타일 */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 버튼 스타일 */
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* 링크 스타일 */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+/* 숨겨진 입력 필드 스타일 */
+input[type="hidden"] {
+    display: none;
+}
+div.detail {
+    width: 800px;
+    overflow: auto;
+    margin: auto;
+}
+</style>
+<body>
+<header><a href="/">홈으로</a></header>
+<div class=detail>
 <table>
-<tr><td>등록번호</td><td><input type="hidden" id=idbox value="${pd.id}"></td>
+<tr><td colspan=2><input type="hidden" id=idbox value="${pd.id}"></td>
 <tr><td>등록번호</td><td>${pd.id}</td>
 <tr><td rowspan=2>이미지</td><td><img src="${pd.image}" width="200"></td></tr>
 <tr><td><input type="text" id=imgbox value="${pd.image}"></td></tr>
@@ -33,7 +113,7 @@
 </table>
 
 <a href="/pregist">목록으로 돌아가기</a>&nbsp;&nbsp;
-
+</div>
 </body>
 <script src='https://code.jquery.com/jquery-latest.js'></script>
 <script>
